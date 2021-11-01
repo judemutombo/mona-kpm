@@ -1,0 +1,8 @@
+{
+    "name": "judesalham/kpm",
+    "autoload": {
+        "psr-4": {
+            "App\\":"App/"
+        }
+    }
+}

@@ -1,0 +1,130 @@
+.tables{
+    padding-top: 45px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(1,60vh);
+}
+
+.connect_sign{
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+.onglets{
+    text-align: center;
+}
+
+.onglets>li{
+    width: 50%;
+}
+
+.champs{
+    display: block;
+    border-radius: 5px;
+    border: 1px solid rgb(163, 161, 161);
+    margin: 2px;
+    width: 100%;
+    height: 45px !important;
+}
+
+.log_button{
+    background-color: #829FD9;
+    border: 1px solid #829FD9;
+    width: 70%;
+    margin-left: 15%;
+}
+.formulaire>.log_button{
+    margin-top: 25px;
+    height: 45px;
+    color: white;
+}
+.formulaire>.champs{
+    margin-top: 20px;
+}
+
+@media only screen and (max-width : 1100px)
+{
+    
+}
+@media only screen and (max-width : 930px)
+{
+    .tables{
+        padding-top: 5px;
+        display: grid;
+        grid-template-columns: 1fr 2fr 1fr;
+        grid-template-rows: repeat(1,60vh);
+    }
+}
+@media only screen and (max-width : 805px)
+{
+    .tables{
+        padding-top: 5px;
+        display: grid;
+        grid-template-columns: 1fr 2fr 1fr;
+        grid-template-rows: repeat(1,60vh);
+    }
+}
+@media only screen and (max-width : 798px)
+{
+    .tables{
+        padding-top: 5px;
+        display: grid;
+        grid-template-columns: 1fr 2fr 1fr;
+        grid-template-rows: repeat(1,60vh);
+    }
+}
+@media only screen and (max-width : 481px)
+{
+    .connect_sign{
+        grid-column-start: 1;
+        grid-column-end: 4;
+        padding: 20px;
+    }
+}
+
+.onglets>li>a{
+    color: black !important;
+}
+.onglets>li>.active{
+    border-bottom: 2px solid #829FD9 !important;
+}
+
+.lbl{
+    margin: 5px;
+}
+
+.indic{
+    width: 20%;
+    margin: 5px;
+}
+.champs_phone{
+    width: 80%;
+    display: inline-block;
+    border-radius: 5px;
+    border: 1px solid rgb(163, 161, 161);
+    margin: 2px;
+    height: 45px !important;
+}
+.register_form2>.champs{
+    margin: 7px;
+}
+.register_address{
+    width:100%;
+    margin: 10px;
+    min-height: 75px;
+}
+.register_legend{
+    width:100%;
+    text-align: center;
+    font-size: x-large;
+}
+#agree_register_button{
+    height: 45px;
+}
+
+.log_button:hover{
+    border: 1px solid #829FD9;
+    color: #829FD9;
+    background-color: white;
+}

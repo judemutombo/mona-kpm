@@ -1,0 +1,341 @@
+
+.sell_info_board{
+    margin-top: 45px;
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    grid-template-rows: repeat(1,80vh);
+}
+.step_sell{
+    grid-column-start: 2;
+    grid-column-end: 5;
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+
+.onglets2{
+    text-align: center;
+}
+
+.onglets2>li{
+    width: 33.3%;
+}
+.onglets2>li>a{
+    color: black !important;
+}
+.onglets2>li>.active{
+    border-bottom: 2px solid #829FD9 !important;
+}
+@media only screen and (max-width : 481px){
+    .step_sell{
+        grid-column-start: 1;
+        grid-column-end: 6;
+        grid-row-start: 1;
+        grid-row-end: 2;
+    }
+}
+
+.product-output{
+    margin: 2% 10% 1% 10%;
+}
+.no_product{
+    font-size: larger;
+    color: black;
+}
+.product-table {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    margin: 2% 0 0 0;
+    padding: 0;
+    width: 100%;
+    table-layout: fixed;
+  }
+  
+  .product-table caption {
+    font-size: 1.5em;
+    margin: .5em 0 .75em;
+  }
+  
+  .product-table tr {
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    padding: .35em;
+  }
+  
+  .product-table th,
+  .product-table td {
+    padding: .625em;
+    text-align: center;
+  }
+  
+  .product-table th {
+    font-size: .85em;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+  .product-table th:last-child,.product-table td:last-child{
+    border: 1px solid #fff;
+    background-color: white;
+   }
+   .product-table td:nth-child(4), .product-table th:nth-child(4)
+   {
+       border-right: 1px solid #ddd;
+   }
+  @media screen and (max-width: 600px) {
+    .product-table {
+      border: 0;
+    }
+  
+    
+    .product-table thead {
+      border: none;
+      clip: rect(0 0 0 0);
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      padding: 0;
+      position: absolute;
+      width: 1px;
+    }
+    
+    .product-table tr {
+      border-bottom: 3px solid #ddd;
+      display: block;
+      margin-bottom: .625em;
+    }
+    
+    .product-table td {
+      border-bottom: 1px solid #ddd;
+      display: block;
+      font-size: .8em;
+      text-align: right;
+    }
+    
+    .product-table td::before {
+      /*
+      * aria-label has no advantage, it won't be read inside a table
+      content: attr(aria-label);
+      */
+      content: attr(data-label);
+      float: left;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    
+    .product-table td:last-child {
+      border-bottom: 0;
+    }
+  }
+  .delete-product-tab{
+
+    border-radius: 5%;
+    background-color: red;
+    height: 40px;
+    border: none;
+    width: 75px;
+    font-family: monospace;
+  }
+  .delete-product-tab:hover{
+      color: silver;
+  }
+
+  .fileup-btn{
+      background-color: #829FD9 ;
+      color: black;
+      border: none;
+      border-radius: 5%;
+      height: 40px;
+      width: 135px;
+      font-family: monospace;
+      transition: all 0.5s;
+      z-index: 2;
+  }
+  .fileup-btn>input{
+      z-index: 2;
+  }
+  .fileup-btn:hover{
+    padding-left: 2px;
+    padding-right: 15px;
+  }
+  .product_upload_output{
+    background-color: #f8f8f8;
+    padding: 2%;
+  }
+  
+  .product_description{
+    background-color: #f8f8f8;
+    margin-top: 25px;
+    padding: 5%;
+  }
+  .info-group{
+    width: 100%;
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 7px;
+    clear: both;
+  }
+  .info-group>label{
+    width: 50%;
+    float: left;
+    font-size: large;
+  }
+  .info-group>input{
+    width: 50%;
+    float: left;
+    height: 45px;
+    border-radius: 5px;
+    border :  0.5px solid #D9D2D2;
+  }
+  .info-group>input::placeholder{
+    font-size: large;
+    padding-left: 3% !important;
+  }
+
+  .info-group>textarea{
+    width: 50%;
+    float: left;
+    border-radius: 5px;
+    border :  0.5px solid #D9D2D2;
+  }
+  .info-group>textarea::placeholder{
+    font-size: large;
+    padding-left: 3% !important;
+    padding-top: 2%;
+  }
+  .info-group>textarea:focus,.info-group>input:focus,.info-group>select:focus{
+    outline: none !important;
+    border:2.5px solid #829FD9;
+  }
+  .info-group>select{
+    width: 50%;
+    float: left;
+    height: 45px;
+    border-radius: 5px;
+    border :  0.5px solid #D9D2D2;
+      color: black;
+  }
+  option[value=""][disabled] {
+    display: none;
+      color: black;
+  }
+
+  option>p::after{
+    content: "445";
+    position: absolute;
+    width : 100%;
+    height: 12px;
+    background-color: #F2F0CE;
+    color: black;
+  }
+
+  @media screen and (max-width: 641px) {
+    .product-output{
+      margin:2% 5% 1% 5% !important;
+    }
+    .info-group>label{
+      width: 0;
+      display: none;
+    }
+    .info-group>input{
+      width: 100%;
+    }
+    .info-group>textarea {
+      width: 100%;
+    }
+    .info-group>select{
+       width: 100%;
+    }
+  }
+  .upload-button{
+    margin-top: 15px;
+    text-align: right;
+  }
+  .btn-add{
+      background-color: #829FD9 ;
+      border: none;
+      border-radius: 5%;
+      height: 45px;
+      width: 140px;
+      font-family: monospace;
+      transition: all 0.5s;
+      text-align: center;
+      color: black;
+  }
+  .btn-add:hover{
+    padding-left: 2px;
+    padding-right: 15px;
+  }
+  .btn-deconnect{
+      color: #000000FF;
+      text-decoration: none;
+      font-size: small;
+  }
+  .profile-names{
+      margin: 0;
+      padding: 5px;
+      height: 185px;
+  }
+  [id*="_user_"]{
+      margin-bottom: 5px;
+      width: 100%;
+      border: none;
+      background-color: #f3f3f3;
+      border-bottom: 1px solid rgb(163, 161, 161);
+      height: 45px !important;
+  }
+  [id *="_user_"]:hover{
+      border-bottom: 2px solid #829fd9;
+  }
+  [id *="_user_"]:focus{
+      outline: none;
+  }
+  textarea[id="_user_address"]
+  {
+      height: 70px !important;
+  }
+  .modify_deactived{
+    background-color: inherit;
+    pointer-events: none;
+    border: none;
+    border-bottom: 1px solid black;
+  }
+  .btn-modify,.btn-change{
+      border: 1px solid rgb(163, 161, 161);
+      background-color: inherit;
+      border-radius: 7px;
+      width: 100px;
+      height: 37px;
+      color: black;
+  }
+  .btn-change{
+      border-color: #829fd9;
+    background-color: #829fd9;
+      display: none;
+      color: black;
+  }
+  @media screen and (max-width: 789px) {
+      .profile-div{
+          display: none;
+      }
+      .personnal_information{
+          background-color: #FFFFFF;
+      }
+      .personnal_information input,select,textarea{
+          background-color: #FFFFFF;
+          padding: 0;
+          margin: 0;
+      }
+      .personnal_information select{
+          background-color: #FFFFFF;
+          padding: 0;
+          margin: 0;
+      }
+      .personnal_information textarea{
+          background-color: #FFFFFF;
+          padding: 0;
+          margin: 0;
+      }
+      .profile-names{
+          padding: 0;
+      }
+  }
