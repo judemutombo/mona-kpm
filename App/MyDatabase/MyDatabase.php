@@ -18,7 +18,7 @@ class MyDatabase{
     {
         if(self::$instance == null)
         {
-            self::$instance = new MyDatabase("localhost","root","kinOnline","");
+            self::$instance = new MyDatabase("sql304.epizy.com","epiz_29584072","epiz_29584072_kpm","Mutombo0");
         }
         return self::$instance;
     }
@@ -34,7 +34,7 @@ class MyDatabase{
     {
         if($this->pdo == null)
         {
-            $this->pdo = new PDO("mysql:host=localhost;dbname=mona","root","");
+            $this->pdo = new PDO("mysql:host=sql304.epizy.com;dbname=epiz_29584072_kpm","epiz_29584072","Mutombo0");
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_WARNING);
         }
         return $this->pdo;
