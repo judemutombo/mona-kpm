@@ -13,7 +13,12 @@ if(isset($_GET["url"]) && isset($_GET["type"]))
     }
     else{
         $retour = [false];
-        $_SESSION["temporary_link"] = $_GET["url"]."?offer=1";
+        if($_GET["type"]=="buy"){
+            $_SESSION["temporary_link"] = $_GET["url"];
+        }else{
+            $_SESSION["temporary_link"] = $_GET["url"]."?offer=1";
+        }
+        
         echo json_encode($retour);
     }
 }

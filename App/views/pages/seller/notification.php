@@ -1,46 +1,33 @@
 <?php
-
-use App\DbAuth\DbAuth;
-
-unset($_SESSION['temp_check']);
-if(!Dbauth::getAuth(App::getInstance()->get_Db())->isConnect())
-{
-    header("Location: ../home");
-}
-?>
-<div class="menu-control">
-    <div class="sidenav">
-        <ul class="sideMenu">
-            <li ><a href="member/dashBoard"><i class="fa fa-home"></i> Overview</a></li>
-            <li><a href="member/orders"><i class="fa fa-clipboard"></i> Orders</a></li>
-            <li><a href="member/product"><i class="fa fa-th-large"></i> Products</a></li>
-            <li><a href="member/profile"><i class="fa fa-user-circle"></i> Profile</a></li>
-            <li class="actif"><a href="member/notification"><i class="fa fa-bell"></i> Notification</a></li>
-            <li><a href="member/help_center"><i class="fa fa-question"></i> Help Center</a></li>
-        </ul>
-    </div>
-    <div class="output">
-        <?php
-        $notification = App::getInstance()->get_Db()->selectionner("SELECT * FROM notification WHERE user=?",[$_SESSION["user"]]);
-
+        $notification = App::getInstance()->get_Db()->selectionner("SELECT * FROM notification WHERE user=? ORDER BY id DESC",[$_SESSION["user"]]);
         foreach ($notification as $item) :
             if($item->type ==="offer")
             {
+                $classname = $item->lecture === "UNREAD" ? 'class="notification-offer-button unread"' : 'class="notification-offer-button read"';
                 $product = App::getInstance()->get_Db()->selectionner("SELECT * FROM offer INNER JOIN product ON  offer.product = product.prod_code WHERE  code =?",[$item->ref_offer],true);
-            ?>
-                <button type="button" class="notification-offer-button" id="offer-button"><?=$item->content;?></button>
+                ?>
+                <button type="button" <?=$classname?> id="offer-button" data-id=<?=$item->id?>><?=$item->content;?></button>
                 <div class="notification-offer-content" id="offer-content">
                     <div class="offer-content-img">
                         <img width="100%" height="100%" src=<?= 'data:image/jpeg;base64,'.base64_encode($product->picture1);?>>
                     </div>
                     <div class="offer-content-info">
 
-                        <p><?=$product->name?></p>
-                        <p>Price : <?=$product->devise." ".$product->price?></p>
-                        <p>His(her) proposition : <?=$product->devise_." ".$product->price_?></p>
+                        <p><?=$product->name_."  "?>Price : <?=$product->devise." ".$product->price?></p>
+                        <?php
+                        $currency = null;
+                        switch ($product->devise_)
+                        {
+                            case "EUR" : $currency ="€"; break;
+                            case "GBP" : $currency ="£"; break;
+                            case "USD" : $currency ="$"; break;
+                            default : $currency ="₺";
+                        }
+                        ?>
+                        <p>His(her) proposition : <?=$currency."".$product->price_?></p>
                         <div >
                             <?php
-                            if($product->state === "waiting")
+                            if($product->state_ === "waiting")
                             {
                             ?>
                                 <button type="button" class="btn-accept" id="offer-accept" data-code=<?=$item->ref_offer?>>Accept</button>
@@ -48,7 +35,7 @@ if(!Dbauth::getAuth(App::getInstance()->get_Db())->isConnect())
                             <?php
                             }
                             else{
-                                echo '<p>'.$product->state.'</p>';
+                                echo '<p>'.$product->state_.'</p>';
                             }
                             ?>
                         </div>
@@ -58,15 +45,129 @@ if(!Dbauth::getAuth(App::getInstance()->get_Db())->isConnect())
             <?php
             }
             else if($item->type === "purchase")
-            {?>
-                <button type="button" class="notification-offer-button" id="offer-button"><?=$item->content;?></button>
+            {
+                $classname = $item->lecture === "UNREAD" ? 'class="notification-offer-button unread"' : 'class="notification-offer-button read"';
+                $product = App::getInstance()->get_Db()->selectionner("SELECT * FROM offer INNER JOIN product ON  offer.product = product.prod_code WHERE  code =?",[$item->ref_offer],true);
+
+                ?>
+                <button type="button" <?=$classname ?> id="offer-button" data-id=<?=$item->id?>><?=$item->content;?></button>
                 <div class="notification-offer-content" id="offer-content">
-                    <p>proceed to payment</p>
+                    <div class="offer-content-img">
+                        <img width="100%" height="100%" src=<?= 'data:image/jpeg;base64,'.base64_encode($product->picture1);?>>
+                    </div>
+                    <div class="offer-content-info">
+
+                        <p><?=$product->name_?></p>
+                        <?php
+                        $currency = null;
+                        switch ($product->devise_)
+                        {
+                            case "EUR" : $currency ="€"; break;
+                            case "GBP" : $currency ="£"; break;
+                            case "USD" : $currency ="$"; break;
+                            default : $currency ="₺";
+                        }
+                        ?>
+                        <p>Price :  <?=$currency."".$product->price_?></p>
+                        <div>
+                            <?php if($product->state_ == "progress")
+                            {?>
+                                <button class="btn-accept payment" type="button" id="btn_payment" data-off=<?=$item->ref_offer?> >proceed to payment</button>
+                                <?php
+                            }else if($product->state_ == "accept" && $product->sender == $_SESSION["user"])
+                            {?>
+                                <p>Paid</p>
+                                <?php
+                            }else{
+                                echo'<p>Sold</p>';
+                            }
+                            ?>
+                        </div>
+                    </div>
+
                 </div>
                 <hr class="limit-notif">
             <?php
             }
+            else if($item->type === "response")
+            {
+                $classname = $item->lecture === "UNREAD" ? 'class="notification-offer-button unread"' : 'class="notification-offer-button read"';
+                ?>
+
+                <button type="button" <?=$classname?> id="offer-button" data-id=<?=$item->id?>><?=$item->content;?></button>
+                <div class="notification-offer-content" id="offer-content">
+                    <button class="btn-send another" type="button" >send another offer</button>
+                </div>
+                <hr class="limit-notif">
+           <?php 
+           }
+            else if($item->type === "payment")
+            {
+                $classname = $item->lecture === "UNREAD" ? 'class="notification-offer-button unread"' : 'class="notification-offer-button read"';
+                ?>
+                <button type="button" <?= $classname?> id="offer-button" data-id=<?=$item->id?>><?=$item->content;?></button>
+                <?php
+                if(!$item->ref_offer== null)
+                {
+                    $product = App::getInstance()->get_Db()->selectionner("SELECT * FROM offer INNER JOIN product ON  offer.product = product.prod_code WHERE  code =?",[$item->ref_offer],true);
+                    ?>
+                    <div class="notification-offer-content" id="offer-content">
+                    <div class="offer-content-img">
+                        <img width="100%" height="100%" src=<?= 'data:image/jpeg;base64,'.base64_encode($product->picture1);?>>
+                    </div>
+                    <div class="offer-content-info">
+
+                        <p><?=$product->name_?></p>
+                        <?php
+                        $currency = null;
+                        switch ($product->devise_)
+                        {
+                            case "EUR" : $currency ="€"; break;
+                            case "GBP" : $currency ="£"; break;
+                            case "USD" : $currency ="$"; break;
+                            default : $currency ="₺";
+                        }
+                        ?>
+                        <p>Price :  <?=$currency."".$product->price_?></p>
+                        <div>
+                            <button type="button" class="btn-accept" id="see-offer-accept" data-code=<?="product-detail/".str_replace(" ","-",$product->category."/".$product->prod_code." ".$product->name_)?>>See product</button>
+                        </div>
+                    </div>
+
+                </div>
+                    <?php
+                }else{
+                    $product = App::getInstance()->get_Db()->selectionner("SELECT * FROM product WHERE prod_code =?",[$item->prod_ref],true);
+                    ?>
+                    <div class="notification-offer-content" id="offer-content">
+                    <div class="offer-content-img">
+                        <img width="100%" height="100%" src=<?= 'data:image/jpeg;base64,'.base64_encode($product->picture1);?>>
+                    </div>
+                    <div class="offer-content-info">
+
+                        <p><?=$product->name_?></p>
+                        <?php
+                        $currency = null;
+                        switch ($product->devise)
+                        {
+                            case "EUR" : $currency ="€"; break;
+                            case "GBP" : $currency ="£"; break;
+                            case "USD" : $currency ="$"; break;
+                            default : $currency ="₺";
+                        }
+                        ?>
+                        <p>Price :  <?=$currency."".$product->price?></p>
+                        <div>
+                            <button type="button" class="btn-accept" id="see-offer-accept" data-code=<?="product-detail/".str_replace(" ","-",$product->category."/".$product->prod_code." ".$product->name_)?>>See product</button>
+                        </div>
+                    </div>
+
+                </div>
+                    <?php
+                }
+                ?>            
+                <hr class="limit-notif">
+            <?php 
+            }
             endforeach;
             ?>
-    </div>
-</div>

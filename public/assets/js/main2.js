@@ -76,7 +76,7 @@ $(function(){
             },
             dataType:'json',
             error: function(data){
-                alert("fail");
+                afficherPopupErreur("fail");
             }
         })
 
@@ -183,14 +183,14 @@ $(function(){
                     }
                     else if(table[1] == 5)
                     {
-                        alert("error");
+                        afficherPopupErreur("error");
                     }
                 }
             },
             dataType:'json',
             error: function(thrownError) {
                 //this is going to happen when you send something different from a 200 OK HTTP
-                alert('Ooops, something happened: ' +thrownError);
+                afficherPopupErreur('Ooops, something happened: ' +thrownError);
                 console.log(thrownError);
             }
         })
@@ -271,7 +271,7 @@ $(function(){
             dataType:'json',
             error: function(thrownError) {
                 //this is going to happen when you send something different from a 200 OK HTTP
-                alert('Ooops, something happened: ' +thrownError);
+                afficherPopupErreur('Ooops, something happened: ' +thrownError);
                 console.log(thrownError);
             }
 

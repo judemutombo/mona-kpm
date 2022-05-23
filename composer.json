@@ -2,7 +2,10 @@
     "name": "judesalham/kpm",
     "autoload": {
         "psr-4": {
+            "PayPalCheckoutSdk\\":"PayPalCheckoutSdk/lib/PayPalCheckoutSdk/",
+            "PayPalHttp\\":"paypalhttp/lib/PayPalHttp/",
             "App\\":"App/"
+            
         }
     }
 }

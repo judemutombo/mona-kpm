@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App;
+use App\DbAuth\DbAuth;
+
 class MainController{
 
     public function render($page, $template)

@@ -22,29 +22,7 @@ $(function(){
         e.preventDefault();
         $(this).tab('show');
     });
-
-    $('.delete-product-tab').on('click',function(){
-        var position = $(this).data("position");
-        var code = $(this).data("code");
-        table = new Array();
-        $.ajax({
-            url:"App/pont/pont_suppProduit.php",
-            type:"POST",
-            data:{"code":code},
-            success:function(data){
-                table = data;
-                if(table[0])
-                {
-                    $("tr").eq(position).remove();
-                }
-                else{
-                    alert(table[1]);
-                }
-
-            },
-            dataType:"json"
-        })
-    })
+    
 
     $.fileup({
         url: 'App/pont/pont_image.php',
@@ -102,7 +80,7 @@ $(function(){
         $('#product-condition').css("border","0.5px solid #D9D2D2");
     });
 
-    $("#btn-add-product").on('click',function(){
+    $("#btn-add-product").on('click',function(){ 
         var name =$('#product-name').val();
         if(name ==" " || name == "")
         {
@@ -152,7 +130,6 @@ $(function(){
                 table = data;
                 if(table[0])
                 {
-                    console.log("it works");
                     $(".loader-wrapper").hide();
                     $(".drawer-button").prop("disabled",false);
                     $("btn-deconnect").attr("disabled", false);
@@ -175,11 +152,12 @@ $(function(){
                 }
                 else{
                     console.error(table[1]);
-                    alert(table[1]);
+                    afficherPopupErreur(table[1]);
                     $(".loader-wrapper").hide();
                     $(".drawer-button").prop("disabled",false);
                     $("btn-deconnect").attr("disabled", false);
                 }
+                onAddProduct()
             },
             error:function ()
             {
@@ -250,12 +228,52 @@ $(function(){
                     window.location.reload();
                 }
                 else{
-                    alert(table[1]);
+                    afficherPopupErreur(table[1]);
                 }
             },
             error:function (data) {
-                alert(data);
+                afficherPopupErreur(data);
             }
         })
     })
+    $("#see-offer-accept").on("click",function (){
+        var code = $(this).data("code");
+        window.open(code,"_self");
+    })
+    $(".cancel-order-tab").on("click",function (){
+        var product = $(this).data("code");
+        $(".glass").show();
+        CancelOrder("Do you really want to cancel this order ?");
+        /*table = new Array();
+        $.ajax({
+            type:"POST",
+            dataType:"JSON",
+            url:"App/pont/....",
+            data:{"code":product},
+            success:function (data){
+                    table = data;
+                    if(table[0])
+                    {
+                        alert(table[1]);
+                    }else{
+                        console.log(table[1])
+                    }
+            },
+            error:function (data) {}
+        })*/
+    })
+   /* $(".order-hover").hover(
+        function (){
+            const data = $(this).data("pic");
+            console.log(data);
+            $(".order-pic>img").attr("src",data);
+            $(".order-pics-1").show();
+        },
+        function (){
+            $(".order-pics-1").hide();
+        })
+        */
+    
+    
+
 })

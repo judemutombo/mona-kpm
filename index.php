@@ -2,9 +2,9 @@
 require "vendor/autoload.php";
 require './App/App.php';
 
-use App\Controller\ProductController;
 use App\Controller\RoleController;
 use App\Controller\UserController;
+use App\Controller\ProductController;
 
 define("ROOT",__DIR__);
 session_start();
@@ -20,9 +20,14 @@ else{
     header("Location:home");
 }
 $controller = new UserController;
+
 if($url[0] === "home")
-{
-    $controller->home();
+{   if(isset($_GET["search"])){
+        $controller->search();
+    }else{
+       $controller->home();
+    }
+
 }
 else if($url[0] ==="login_signIn")
 {
@@ -75,9 +80,22 @@ else if($url[0] === "member")
         $controller = new RoleController;
         $controller->notification();
     }
+    elseif ($url[1] === "user") {
+        $controller = new ProductController();
+        $controller->userProfile();
+    }
 }
 else if($url[0] === "product-detail")
 {
     $controller = new ProductController();
     $controller->detail();
+}
+else if($url[0] === "checkout")
+{
+    $controller = new UserController();
+    $controller->checkout();
+}
+else if($url[0] === "category"){
+    $controller = new ProductController();
+    $controller->category();
 }

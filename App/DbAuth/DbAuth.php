@@ -31,8 +31,12 @@ class DbAuth{
             $mona_id = $this->generate_id();
             $reuslt = $this->db->selectionner("SELECT * FROM user WHERE mona_id=?",[$mona_id],false);
         }while(count($reuslt) > 0 );
-
-        if($this->db->inserer("INSERT INTO user(name,surname,address,mona_id,mail,password,district) VALUES(?,?,?,?,?,?,?)",[$_name, $_lname,$_address,$mona_id,$_mail,$_passeee,$_district]))
+        do{
+            $token = openssl_random_pseudo_bytes(48);
+            $token = bin2hex($token);
+            $reuslt = $this->db->selectionner("SELECT * FROM user WHERE profile_id=?",[$token],false);
+        }while(count($reuslt) > 0 );
+        if($this->db->inserer("INSERT INTO user(name,surname,address,mona_id,mail,password,district,profile_id) VALUES(?,?,?,?,?,?,?,?)",[$_name, $_lname,$_address,$mona_id,$_mail,$_passeee,$_district,$token]))
         {
             $_SESSION['user'] = $mona_id;
             $_SESSION['username'] = $_name;

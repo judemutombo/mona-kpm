@@ -1,8 +1,12 @@
-<?php use App\DbAuth\DbAuth; ?>
+<?php use App\DbAuth\DbAuth;
+use App\Notification\Notification;
+use App\User\User;
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <?php
+
     if(isset($_GET['url']))
     {
         $url = explode("/",$_GET['url']);
@@ -10,30 +14,33 @@
     else{
         $url = array("");
     }
-    if(count($url) == 1)
+    function getBase($url): string
     {
-        $base = "public";
-    }elseif(count($url) == 3)
-    {
-        $base ="../../";
-    }elseif(count($url) == 2)
-    {
-        $base ="../";
-    }elseif(count($url) == 4)
-    {
-        $base ="../../../";
-    }elseif(count($url) == 5)
-    {
-        $base ="../../../../";
+        if (count($url) == 1) {
+            $base = "public";
+        } elseif (count($url) == 3) {
+            $base = "../../";
+        } elseif (count($url) == 2) {
+            $base = "../";
+        } elseif (count($url) == 4) {
+            $base = "../../../";
+        } elseif (count($url) == 5) {
+            $base = "../../../../";
+        }
+        return $base;
     }
-    
+    $base = getBase($url);
+
     ?>
     <?= '<base href="'.$base.'">' ?>
     <meta charset="utf-8">
-    <title>Mona</title>
+    <title><?= App::getInstance()->title ?></title>
+    <link rel="icon" href="./public/assets/img/logo.png">
     <link type="text/css" rel="stylesheet" href="./public/assets/css/style.css">
     <link type="text/css" rel="stylesheet" href="./public/assets/css/style_login.css">
     <link type="text/css" rel="stylesheet" href="./public/assets/css/sell_style.css">
+    <link rel="stylesheet" type="text/css" href="./public/assets/jquery-ui-1.13.1/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="./public/assets/css/popup.css">
     <link type="text/css" rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="./public/assets/OwlCarousel2-2.3.4/OwlCarousel2-2.3.4/docs/assets/owlcarousel/assets/owl.carousel.css">
     <link rel="stylesheet" href="./public/assets/OwlCarousel2-2.3.4/OwlCarousel2-2.3.4/docs/assets/owlcarousel/assets/owl.theme.default.css">
@@ -44,6 +51,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" >
 </head>
 <body>
+    <script src="./public/assets/js/jquery.js"></script>
+    <div class="loaders">
+        <div class="loader-wheel">
+            <p class="loader-title">Mona </p>
+        </div>
+    </div>
+    <div class="glass"></div>
     <header class="header1 grille1">
         <div class="temp1-drawer-button">
             <?php
@@ -65,22 +79,50 @@
             <?php } ?>
         </div>
     </header>
+    <?php
+        unset($_SESSION['temp_check']);
+        if(!Dbauth::getAuth(App::getInstance()->get_Db())->isConnect())
+        {
+            Header("Location: ../account");
+        }
+    ?>
     <div class="space"></div>
-    <?= $content;?>
-    <script src="./public/assets/js/jquery.js"></script>
+    <div class="menu-control">
+        <div class="sidenav">
+            <ul class="sideMenu">
+                <li <?= $url[1] == "dashBoard" ? "class='actif'": " "?>  ><a href="member/dashBoard"><i class="fa fa-home"></i> Overview</a></li>
+                <li <?= $url[1] == "orders" ? "class='actif'": " "?> ><a href="member/orders"><i class="fa fa-clipboard"></i> Orders</a></li>
+                <li <?= $url[1] == "product" ? "class='actif'": " "?> ><a href="member/product"><i class="fa fa-th-large"></i> Products</a></li>
+                <li <?= $url[1] == "profile" ? "class='actif'": " "?> ><a href="member/profile"><i class="fa fa-user-circle"></i> Profile</a></li>
+                <li <?= $url[1] == "notification" ? "class='actif'": " "?> ><a href="member/notification"><i class="fa fa-bell"></i> Notification(<span class="notifNbr"><?=Notification::unreadNotification()?></span>)</a></li>
+                <li <?= $url[1] == "help_center" ? "class='actif'": " "?> ><a href="member/help_center"><i class="fa fa-question"></i> Help Center</a></li>
+            </ul>
+        </div>
+        <div class="output">
+            <?=$content?>
+        </div>
+
+    </div>
+
     <script src="./public/assets/OwlCarousel2-2.3.4/OwlCarousel2-2.3.4/docs/assets/owlcarousel/owl.carousel.js"></script>
     <script src="./public/assets/OwlCarousel2-2.3.4/OwlCarousel2-2.3.4/docs/src/js/owl.autoplay.js"></script>
     <script src="./public/assets/OwlCarousel2-2.3.4/OwlCarousel2-2.3.4/docs/src/js/owl.navigation.js"></script>
     <script src="./public/assets/OwlCarousel2-2.3.4/OwlCarousel2-2.3.4/docs/src/js/owl.animte.js"></script>
     <script src="./public/assets/OwlCarousel2-2.3.4/OwlCarousel2-2.3.4/docs/src/js/owl.support.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
-    
+    <script src="./public/assets/jquery-ui-1.13.1/jquery-ui.js"></script>
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <?= $url[1] == "product" ? '<script src="./public/assets/js/app.js" defer type="text/babel"></script>' : " " ?>
+
+    <script src="./public/assets/js/popup.js"></script>
     <script src="./public/assets/uploader/src/fileup.js"></script>
     <script src="./public/assets/js/main.js"></script>
     <script src="./public/assets/js/main2.js"></script>
     <script src="./public/assets/js/sell_js.js"></script>
     <script src="./public/assets/js/buy_js.js"></script>
-    
+
 
 
 </body>
